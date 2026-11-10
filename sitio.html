@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kern, el sitio como podría ser</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..600,0..100,0..1&family=Figtree:wght@400;500;600&display=swap">
+<style>
+/* Maqueta del sitio: barra de control sobria arriba y el sitio propuesto debajo, siempre en el papel de Kern (es la vista previa del diseño). */
+:root{
+  --bg:#F4EEE0; --surface:#E7DDC8; --fg:#33271D; --muted:#6B5D4E; --line:rgba(51,39,29,.22);
+  --papel:#F4EEE0; --lino:#E7DDC8; --tinta:#33271D; --suave:#6B5D4E; --oliva:#56613A; --salvia:#BAC4A2; --mostaza:#CC9A33; --arcilla:#9A4F36;
+  --linea-sitio:rgba(51,39,29,.22);
+  --display:"Fraunces",Georgia,"Times New Roman",serif; --sans:"Figtree",system-ui,-apple-system,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:16px;line-height:1.55;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0;overflow-x:clip}
+img{display:block;max-width:100%;height:auto}
+:focus-visible{outline:2px solid var(--oliva);outline-offset:3px}
+
+.volver{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;gap:8px;background:var(--bg);border-bottom:1px solid var(--line);margin:0 calc(-1 * max(16px,env(safe-area-inset-left,0px)));padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));font-size:14px;font-weight:600;color:var(--fg);text-decoration:none}
+.volver:hover{text-decoration:underline}
+.pagina{max-width:1280px;margin:0 auto;margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)))}
+@media (min-width:1300px){.pagina{margin-inline:auto}}
+.site{container-type:inline-size;background:var(--papel);color:var(--tinta);font-family:var(--sans);font-size:16px;line-height:1.55;min-height:560px}
+.site h1,.site h2,.site h3{font-family:var(--display);font-weight:400;font-variation-settings:"SOFT" 0,"WONK" 0,"opsz" 144;letter-spacing:-.015em;line-height:1.05;margin:0}
+.site p{margin:0}
+.site a{text-decoration:none}
+.s-head{display:flex;align-items:center;justify-content:space-between;gap:12px 16px;padding:14px 32px;background:var(--oliva);color:var(--papel);flex-wrap:wrap}
+.s-logo{display:block}
+.s-logo img{display:block;width:120px;height:auto}
+.s-nav{display:flex;gap:22px;font-size:14px;font-weight:500;align-items:center}
+.s-nav a{color:var(--papel)}
+.s-head .btn.s{border-color:var(--papel);color:var(--papel)}
+.btn{display:inline-block;font:inherit;font-size:15px;font-weight:600;border-radius:6px;padding:12px 22px;border:1px solid var(--tinta);cursor:pointer;line-height:1.2;text-align:center}
+.btn.p{background:var(--oliva);border-color:var(--oliva);color:var(--papel)}
+.btn.s{background:transparent;color:var(--tinta)}
+.btn.sm{padding:8px 16px;font-size:14px}
+.s-eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--suave)}
+.s-hero{display:grid;grid-template-columns:1.1fr .9fr;align-items:stretch;border-bottom:1px solid var(--linea-sitio)}
+.s-hero .tx{padding:56px 32px 56px 40px;display:flex;flex-direction:column;justify-content:center;gap:20px}
+.s-hero h1{font-size:clamp(40px,8cqw,76px)}
+.s-hero p{color:var(--suave);max-width:42ch;font-size:17px}
+.s-hero .ph img{width:100%;height:100%;object-fit:cover}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+.s-band{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-bottom:1px solid var(--linea-sitio)}
+.s-band div{padding:28px 32px;display:flex;gap:16px;align-items:center}
+.s-band div+div{border-left:1px solid var(--linea-sitio)}
+.s-band .ink{width:64px;height:64px;flex:none;display:block;background:var(--tinta);-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+.s-band b{display:block;font-weight:600;font-size:15px}
+.s-band span{font-size:14px;color:var(--suave);line-height:1.4;display:block}
+.s-sec{padding:56px 40px}
+.s-sec h2{font-size:clamp(30px,5cqw,44px);margin:8px 0 28px}
+.s-grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.card{display:flex;flex-direction:column;gap:12px;color:var(--tinta)}
+.card img{width:100%;aspect-ratio:4/5;object-fit:cover;background:var(--lino);border-radius:4px}
+.card.wide img{aspect-ratio:16/10}
+.card h3{font-size:22px}
+.card p{font-size:14px;color:var(--suave);line-height:1.45}
+.card .more{font-size:14px;font-weight:600;border-bottom:1px solid var(--tinta);align-self:flex-start}
+.s-oliva{background:var(--oliva);color:var(--papel);padding:56px 40px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
+.s-oliva h2{font-size:clamp(28px,4.6cqw,40px)}
+.s-oliva .btn{background:var(--papel);color:var(--tinta);border-color:var(--papel)}
+.s-foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:24px 40px;font-size:13px;color:var(--suave);border-top:1px solid var(--linea-sitio)}
+.crumbs{padding:16px 40px 0;font-size:13px;color:var(--suave)}
+.s-prod{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;padding:24px 40px 56px}
+.gal{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gal img{width:100%;border-radius:4px;aspect-ratio:4/5;object-fit:cover}
+.gal img:first-child{grid-column:span 2;aspect-ratio:1/1}
+.s-prod h1{font-size:clamp(34px,6cqw,52px);margin:8px 0 14px}
+.s-prod .info{display:flex;flex-direction:column;gap:18px}
+.s-prod .info > p{color:var(--suave)}
+.dl{display:grid;grid-template-columns:auto 1fr;gap:0 24px;font-size:15px;margin:0}
+.dl dt,.dl dd{padding:10px 0;border-top:1px solid var(--linea-sitio);margin:0}
+.dl dt{color:var(--suave)}
+.ing{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ing figure{margin:0;text-align:center;font-size:13px}
+.ing .ink{width:100%;aspect-ratio:1;display:block;background:var(--tinta);-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+.b2b-hero{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--linea-sitio);background:var(--lino)}
+.b2b-hero .tx{padding:56px 32px 56px 40px;display:flex;flex-direction:column;gap:20px;justify-content:center}
+.b2b-hero h1{font-size:clamp(34px,6.4cqw,60px)}
+.b2b-hero p{color:var(--suave);max-width:44ch}
+.b2b-hero img{width:100%;height:100%;object-fit:cover;min-height:260px}
+.pasos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;counter-reset:p}
+.pasos div{border-top:2px solid var(--tinta);padding-top:12px;font-size:14px;color:var(--suave);line-height:1.45}
+.pasos b{display:block;color:var(--tinta);font-size:16px;font-weight:600;margin-bottom:4px}
+.pasos b::before{counter-increment:p;content:counter(p) ". "}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--linea-sitio);margin-top:28px}
+.facts div{padding:16px 20px;font-size:14px;color:var(--suave)}
+.facts div+div{border-left:1px solid var(--linea-sitio)}
+.facts b{display:block;color:var(--tinta);font-weight:600;font-size:15px}
+.cot{display:grid;grid-template-columns:1fr 1fr;gap:40px;background:var(--lino);padding:56px 40px}
+.cot form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cot label{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600;color:var(--tinta)}
+.cot input,.cot select{font:inherit;font-size:15px;font-weight:400;border:1px solid var(--tinta);background:var(--papel);color:var(--tinta);border-radius:6px;padding:10px 12px;min-width:0;width:100%}
+.cot .full{grid-column:1/-1}
+.cot .msg{grid-column:1/-1;font-size:14px;color:var(--oliva);min-height:1.4em}
+.cot h2{font-size:clamp(28px,4.6cqw,40px);margin-bottom:12px}
+.cot .izq p{color:var(--suave);max-width:40ch}
+.mini{font-size:13px;color:var(--suave)}
+.mark{display:inline-block;background:var(--mostaza);color:var(--tinta);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border-radius:3px;padding:2px 7px;vertical-align:middle}
+
+@container (max-width:700px){
+  .s-head{padding:12px 18px}
+  .s-nav{gap:16px;width:100%;overflow-x:auto;white-space:nowrap}
+  .s-hero,.b2b-hero,.s-prod,.cot,.s-oliva{grid-template-columns:1fr}
+  .s-hero .tx,.b2b-hero .tx{padding:36px 18px}
+  .s-hero .ph{order:-1;aspect-ratio:5/4}
+  .s-band,.s-grid3,.pasos,.facts{grid-template-columns:1fr}
+  .s-band div+div,.facts div+div{border-left:0;border-top:1px solid var(--linea-sitio)}
+  .s-band div{padding:18px}
+  .s-sec,.s-oliva,.cot{padding:36px 18px}
+  .s-prod{padding:16px 18px 36px;gap:24px}
+  .crumbs{padding:14px 18px 0}
+  .s-foot{padding:20px 18px}
+  .cot form{grid-template-columns:1fr}
+  .s-grid3.fichas{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (prefers-reduced-motion:reduce){.frame{transition:none}}
+</style>
+<style id="gate-css">
+html.locked body>*:not(#gate){display:none!important}
+#gate{display:none}
+html.locked #gate{display:flex}
+#gate{position:fixed;inset:0;z-index:100;align-items:center;justify-content:center;background:#F4EEE0;color:#33271D;font-family:"Figtree",system-ui,sans-serif;padding:24px}
+#gate form{width:100%;max-width:340px;display:flex;flex-direction:column;gap:14px}
+#gate h1{font-family:"Fraunces",Georgia,serif;font-weight:400;font-size:44px;line-height:1;margin:0;letter-spacing:-.02em}
+#gate p{margin:0;color:#6B5D4E;font-size:15px}
+#gate label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:#6B5D4E}
+#gate input{font:inherit;font-size:17px;border:1px solid #33271D;background:#FFFAF2;color:#33271D;border-radius:10px;padding:13px 14px;width:100%}
+#gate button{font:inherit;font-size:17px;font-weight:600;background:#56613A;color:#F4EEE0;border:1px solid #56613A;border-radius:10px;padding:13px;cursor:pointer;min-height:48px}
+#gate .err{color:#9A4F36;font-size:14px;min-height:1.3em}
+</style>
+<script>try{if(sessionStorage.getItem("kern-ok")!=="1")document.documentElement.classList.add("locked")}catch(e){document.documentElement.classList.add("locked")}</script>
+</head>
+<body>
+
+<a class="volver" href="index.html">← Volver a la muestra</a>
+
+<div class="pagina">
+    <div class="site">
+      <header class="s-head">
+        <a class="s-logo" href="#" data-go="inicio" aria-label="Kern, inicio"><img src="img/logo-actual.webp" width="240" height="70" alt="Kern, jabones naturales"></a>
+        <nav class="s-nav" aria-label="Menú de la maqueta">
+          <a href="#" data-go="inicio">Inicio</a>
+          <a href="#" data-go="ficha">Jabones</a>
+          <a href="#" data-go="empresas">Regalos</a>
+          <a href="#" class="btn s sm" data-go="empresas">Para empresas</a>
+        </nav>
+      </header>
+
+      <!-- INICIO -->
+      <div id="v-inicio">
+        <div class="s-hero">
+          <div class="tx">
+            <span class="s-eyebrow">Jabón natural · saponificación en frío</span>
+            <h1>Jabón hecho con tiempo.</h1>
+            <p>Cada barra reposa 30 días antes de llegar a tus manos. Aceites vegetales, hecha a mano, una a una.</p>
+            <div class="row">
+              <a href="#" class="btn p" data-go="ficha">Ver los jabones</a>
+              <a href="#" class="btn s" data-go="empresas">Regalos para empresas</a>
+            </div>
+          </div>
+          <div class="ph"><img src="img/04-sandalo-redes.webp" width="640" height="800" alt="Barra de sándalo junto a una rama de olivo y madera de sándalo"></div>
+        </div>
+        <div class="s-band">
+          <div><span class="ink" style="--m:url(img/02-oliva.webp)" aria-hidden="true"></span><p><b>Hecho en frío</b><span>Solo con aceites vegetales.</span></p></div>
+          <div><span class="ink" style="--m:url(img/06-miel-abeja.webp)" aria-hidden="true"></span><p><b>30 días de reposo</b><span>Antes de salir del taller.</span></p></div>
+          <div><span class="ink" style="--m:url(img/01-palta.webp)" aria-hidden="true"></span><p><b>Pulido barra a barra</b><span>Cantos y terminación a mano.</span></p></div>
+        </div>
+        <div class="s-sec">
+          <span class="s-eyebrow">Elige por ocasión</span>
+          <h2>¿Para quién es?</h2>
+          <div class="s-grid3">
+            <a href="#" class="card" data-go="ficha"><img src="img/01-sandalo-ficha.webp" width="800" height="1000" alt="Barra de sándalo" loading="lazy"><h3>Para ti</h3><p>Jabones de uso diario, en los aromas de siempre.</p><span class="more">Ver jabones</span></a>
+            <a href="#" class="card" data-go="empresas"><img src="img/08-pack-pino.webp" width="1100" height="619" alt="Caja de pino con jabones y lazo" loading="lazy"><h3>Para regalar</h3><p>Cajas y bolsas listas para entregar.</p><span class="more">Ver regalos</span></a>
+            <a href="#" class="card" data-go="empresas"><img src="img/09-pack-caja.webp" width="1100" height="619" alt="Caja de pino con lazo y varios jabones" loading="lazy"><h3>Para tu empresa</h3><p>Packs con tu logo y un saludo de tu equipo.</p><span class="more">Ver regalos para empresas</span></a>
+          </div>
+        </div>
+        <div class="s-sec" style="padding-top:0">
+          <span class="s-eyebrow">Los jabones</span>
+          <h2>Tres para empezar</h2>
+          <div class="s-grid3 fichas">
+            <a href="#" class="card" data-go="ficha"><img src="img/01-sandalo-ficha.webp" width="800" height="1000" alt="Barra de sándalo" loading="lazy"><h3>Sándalo</h3><p>Aceite de oliva y almendra, manzanilla.</p></a>
+            <a href="#" class="card" data-go="ficha"><img src="img/02-frambuesa-ficha.webp" width="800" height="1000" alt="Barra de frambuesa" loading="lazy"><h3>Frambuesa</h3><p>Aceite de palta, oliva y pepa de uva.</p></a>
+            <a href="#" class="card" data-go="ficha"><img src="img/03-almendra-ficha.webp" width="800" height="1000" alt="Barra de almendra" loading="lazy"><h3>Almendra</h3><p>Aceite de almendra, avellana y palta.</p></a>
+          </div>
+        </div>
+        <div class="s-oliva">
+          <div><h2>Regalar con tiempo también es un oficio</h2></div>
+          <a href="#" class="btn" data-go="empresas">Conoce los regalos para empresas</a>
+        </div>
+        <div class="s-foot"><span>Kern · Jabones naturales · vhott@kern.cl</span></div>
+      </div>
+
+      <!-- FICHA -->
+      <div id="v-ficha" hidden>
+        <p class="crumbs">Jabones › Almendra</p>
+        <div class="s-prod">
+          <div class="gal">
+            <img src="img/03-almendra-ficha.webp" width="800" height="1000" alt="Barra de almendra con su cintillo">
+            <img src="img/06-almendra-redes.webp" width="640" height="800" alt="Barra de almendra junto a almendras y una rama en flor" loading="lazy">
+            <img src="img/07-pack-kraft.webp" width="1100" height="619" alt="Bolsa kraft de Kern con jabones" loading="lazy">
+          </div>
+          <div class="info">
+            <div>
+              <span class="s-eyebrow">Jabón natural · hecho en frío</span>
+              <h1>Jabón de almendra</h1>
+            </div>
+            <p>Barra de saponificación en frío con aceite de almendra, avellana y palta. Reposa 30 días antes de salir del taller.</p>
+            <dl class="dl">
+              <dt>Aceites</dt><dd>Almendra, avellana y palta</dd>
+              <dt>Proceso</dt><dd>Saponificación en frío, hecho a mano</dd>
+              <dt>Reposo</dt><dd>30 días</dd>
+              <dt>Terminación</dt><dd>Pulido barra a barra</dd>
+              <dt>Peso</dt><dd><span class="mark">Por confirmar</span></dd>
+            </dl>
+            <div class="ing" aria-label="Ingredientes ilustrados">
+              <figure><span class="ink" style="--m:url(img/barra.webp)" role="img" aria-label="Grabado de la barra"></span>La barra</figure>
+              <figure><span class="ink" style="--m:url(img/03-avellana.webp)" role="img" aria-label="Grabado de avellanas"></span>Avellana</figure>
+              <figure><span class="ink" style="--m:url(img/01-palta.webp)" role="img" aria-label="Grabado de palta"></span>Palta</figure>
+            </div>
+            <div><span class="mark">Precio por definir</span></div>
+            <div class="row">
+              <a href="#" class="btn p">Hacer un pedido</a>
+              <a href="#" class="btn s" data-go="empresas">Sumar a un regalo</a>
+            </div>
+            <p class="mini">Cómo se reciben los pedidos (carrito, WhatsApp o correo) está por definir.</p>
+          </div>
+        </div>
+        <div class="s-sec" style="padding-top:0">
+          <span class="s-eyebrow">Combina con</span>
+          <h2>Para regalar</h2>
+          <div class="s-grid3">
+            <a href="#" class="card wide" data-go="empresas"><img src="img/07-pack-kraft.webp" width="1100" height="619" alt="Bolsa kraft con jabones" loading="lazy"><h3>Bolsa kraft</h3></a>
+            <a href="#" class="card wide" data-go="empresas"><img src="img/08-pack-pino.webp" width="1100" height="619" alt="Caja de pino con lazo" loading="lazy"><h3>Caja de pino</h3></a>
+            <a href="#" class="card wide" data-go="empresas"><img src="img/09-pack-caja.webp" width="1100" height="619" alt="Caja de pino con tres jabones" loading="lazy"><h3>Caja con lazo</h3></a>
+          </div>
+        </div>
+        <div class="s-foot"><span>Kern · Jabones naturales · vhott@kern.cl</span></div>
+      </div>
+
+      <!-- EMPRESAS -->
+      <div id="v-empresas" hidden>
+        <div class="b2b-hero">
+          <div class="tx">
+            <span class="s-eyebrow">Regalos para empresas</span>
+            <h1>Un regalo que muestra que se tomaron el tiempo.</h1>
+            <p>Packs con el logo de tu empresa y un saludo de tu equipo, preparados a mano en nuestro taller.</p>
+            <div class="row">
+              <a href="#" class="btn p" data-scroll="cot">Pedir cotización</a>
+              <button type="button" class="btn s" id="copiar">Copiar enlace para compartir</button>
+            </div>
+            <span class="mini" id="copiado" aria-live="polite"></span>
+          </div>
+          <img src="img/09-pack-caja.webp" width="1100" height="619" alt="Caja de pino con lazo café y varios jabones artesanales">
+        </div>
+        <div class="s-sec">
+          <span class="s-eyebrow">Los packs</span>
+          <h2>Tres formas de entregarlo</h2>
+          <div class="s-grid3">
+            <div class="card wide"><img src="img/07-pack-kraft.webp" width="1100" height="619" alt="Bolsa kraft con jabones" loading="lazy"><h3>Bolsa kraft</h3><p>La más simple, para entregas numerosas.</p><span><span class="mark">Desde X unidades</span></span></div>
+            <div class="card wide"><img src="img/08-pack-pino.webp" width="1100" height="619" alt="Caja de pino con jabones" loading="lazy"><h3>Caja de pino</h3><p>Madera con «Kern» grabado y lazo.</p><span><span class="mark">Desde X unidades</span></span></div>
+            <div class="card wide"><img src="img/09-pack-caja.webp" width="1100" height="619" alt="Caja de pino con tres jabones y lazo" loading="lazy"><h3>Caja con lazo</h3><p>Varios jabones y una tarjeta con el saludo.</p><span><span class="mark">Desde X unidades</span></span></div>
+          </div>
+          <div class="facts">
+            <div><b>Plazo de entrega</b><span class="mark">Por confirmar</span></div>
+            <div><b>Personalización</b>Logo y saludo de tu empresa</div>
+            <div><b>Facturación</b><span class="mark">Por confirmar</span></div>
+          </div>
+        </div>
+        <div class="s-sec" style="padding-top:0">
+          <span class="s-eyebrow">Cómo lo hacemos juntos</span>
+          <h2>Del pedido a la entrega</h2>
+          <div class="pasos">
+            <div><b>Cuéntanos</b>La ocasión, la cantidad y la fecha.</div>
+            <div><b>Elegimos el pack</b>Según tu presupuesto.</div>
+            <div><b>Lo personalizamos</b>Con tu logo y tu saludo.</div>
+            <div><b>Lo entregamos</b>Listo para regalar.</div>
+          </div>
+          <p class="mini" style="margin-top:14px">Los pasos son una propuesta para ordenar el proceso; se ajustan a cómo trabajan hoy.</p>
+        </div>
+        <div class="cot" id="cot">
+          <div class="izq">
+            <h2>Pide tu cotización</h2>
+            <p>Cinco datos bastan para partir. Te respondemos con una propuesta de pack.</p>
+          </div>
+          <form id="form-cot" novalidate>
+            <label for="f-emp">Empresa<input id="f-emp" type="text" placeholder="Nombre de la empresa"></label>
+            <label for="f-con">Contacto<input id="f-con" type="text" placeholder="Nombre y correo"></label>
+            <label for="f-oca">Ocasión<select id="f-oca"><option>Navidad</option><option>Aniversario de la empresa</option><option>Bienvenida a nuevas personas</option><option>Otra</option></select></label>
+            <label for="f-can">Cantidad aproximada<input id="f-can" type="text" placeholder="Por ejemplo, 80"></label>
+            <label class="full" for="f-pre">Presupuesto por regalo, aproximado<input id="f-pre" type="text" placeholder="Por ejemplo, entre 8.000 y 12.000"></label>
+            <div class="full"><button type="submit" class="btn p">Pedir cotización</button></div>
+            <p class="msg" id="msg" aria-live="polite"></p>
+          </form>
+        </div>
+        <div class="s-foot"><span>Kern · Jabones naturales · vhott@kern.cl</span></div>
+      </div>
+    </div>
+</div>
+
+<script>
+(function(){
+  try{history.scrollRestoration="manual"}catch(e){}
+  function arriba(){window.scrollTo(0,0);document.documentElement.scrollTop=0;document.body.scrollTop=0}
+  arriba();
+  window.addEventListener("load",function(){arriba();setTimeout(arriba,60);setTimeout(arriba,300)});
+  window.addEventListener("pageshow",arriba);
+  var views=["inicio","ficha","empresas"];
+  function show(v){views.forEach(function(n){document.getElementById("v-"+n).hidden=(n!==v)});window.scrollTo({top:0,behavior:"smooth"})}
+  document.querySelectorAll("a[href='#']").forEach(function(a){a.addEventListener("click",function(e){e.preventDefault();if(a.dataset.go)show(a.dataset.go)})});
+  document.querySelectorAll("[data-scroll]").forEach(function(a){a.addEventListener("click",function(e){e.preventDefault();var t=document.getElementById(a.dataset.scroll);if(t)t.scrollIntoView({block:"center",behavior:"smooth"})})});
+  document.getElementById("form-cot").addEventListener("submit",function(e){e.preventDefault();document.getElementById("msg").textContent="Es una maqueta: este formulario no envía nada."});
+  document.getElementById("copiar").addEventListener("click",function(){
+    var out=document.getElementById("copiado"), txt="kern.cl/empresas";
+    function ok(){out.textContent="Enlace de ejemplo copiado: "+txt}
+    function no(){out.textContent="En el sitio real, aquí se copiaría "+txt}
+    try{navigator.clipboard.writeText(txt).then(ok,no)}catch(x){no()}
+  });
+})();
+</script>
+<div id="gate" role="dialog" aria-label="Acceso">
+<form id="gate-form" autocomplete="off">
+<h1>Kern</h1>
+<p>Esta muestra es privada. Escribe la clave para entrar.</p>
+<label for="gate-pw">Clave</label>
+<input id="gate-pw" type="password" autocomplete="current-password" autofocus>
+<button type="submit">Entrar</button>
+<div class="err" id="gate-err" aria-live="polite"></div>
+</form>
+</div>
+<script>
+(function(){
+  var HASH="548831b7e4aec2af721010c520de7fd622a22d96b6d51a26e53614c330ae1c21";
+  function sha(t){
+    if(window.crypto&&crypto.subtle){return crypto.subtle.digest("SHA-256",new TextEncoder().encode(t)).then(function(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return("0"+x.toString(16)).slice(-2)}).join("")})}
+    return Promise.resolve(null);
+  }
+  document.getElementById("gate-form").addEventListener("submit",function(e){
+    e.preventDefault();
+    var v=document.getElementById("gate-pw").value.trim().toLowerCase();
+    sha(v).then(function(h){
+      if(h===HASH){try{sessionStorage.setItem("kern-ok","1")}catch(x){}document.documentElement.classList.remove("locked");window.scrollTo(0,0)}
+      else{document.getElementById("gate-err").textContent="Clave incorrecta.";document.getElementById("gate-pw").select()}
+    });
+  });
+})();
+</script>
+</body>
+</html>

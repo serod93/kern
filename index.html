@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Kern, hecho con tiempo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..600,0..100,0..1&family=Figtree:wght@400;500;600&display=swap">
+<style>
+/* Concepto: relato pensado para móvil. Cada vista cabe en una pantalla y el scroll salta de una vista a la siguiente; no hay scroll libre.
+   Solo modo día. La tinta (grabados) se funde con el fondo. Sistema de Kern: papel, lino, tinta, oliva, salvia, mostaza, arcilla; Fraunces + Figtree. */
+:root{
+  --bg:#F4EEE0; --surface:#E7DDC8; --fg:#33271D; --muted:#6B5D4E; --line:rgba(51,39,29,.22);
+  --accent:#56613A; --btn:#56613A; --on-btn:#F4EEE0;
+  --mostaza:#CC9A33; --arcilla:#9A4F36;
+  --display:"Fraunces",Georgia,"Times New Roman",serif; --sans:"Figtree",system-ui,-apple-system,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth;overscroll-behavior-y:none}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:17px;line-height:1.5;margin:0;padding-block:0;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));overflow-x:clip}
+img{display:block;max-width:100%;height:auto}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance;font-variation-settings:"SOFT" 0,"WONK" 0,"opsz" 144}
+p{margin:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font:inherit;font-size:17px;font-weight:600;background:var(--btn);color:var(--on-btn);border:1px solid var(--btn);border-radius:10px;padding:13px 24px;cursor:pointer;text-decoration:none;line-height:1.2;min-height:48px}
+.btn.ghost{background:transparent;color:var(--fg);border-color:var(--fg)}
+.ink{display:block;background:var(--fg);-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat;aspect-ratio:1}
+.cap{font-size:14px;color:var(--muted);line-height:1.4}
+
+/* vistas: una por pantalla */
+.v{min-height:calc(100svh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));scroll-snap-align:start;scroll-snap-stop:always;display:flex;flex-direction:column;justify-content:center;gap:clamp(12px,2.6svh,24px);padding-block:clamp(22px,5svh,52px);max-width:1120px;margin:0 auto}
+.v h2{font-size:clamp(30px,min(9vw,6.4svh),64px);line-height:1.04;letter-spacing:-.018em}
+.lead{font-size:clamp(16px,min(4.4vw,2.9svh),21px);color:var(--muted);max-width:60ch}
+.rail{position:fixed;right:max(5px,env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:5px;z-index:5;pointer-events:none}
+.rail i{width:3px;height:10px;border-radius:2px;background:var(--line);transition:background .3s,height .3s}
+.rail i.d{background:var(--accent);height:20px}
+
+/* bienvenida */
+.hello{display:flex;flex-direction:column;gap:clamp(12px,2.6svh,24px)}
+.hello .ink{--m:url(img/barra-recorte.webp);aspect-ratio:1.602;height:min(27svh,calc(88vw / 1.602));width:auto;align-self:flex-start;margin-left:-4px}
+.hello h1{font-size:clamp(52px,min(17vw,11svh),116px);line-height:.95;letter-spacing:-.025em;margin:8px 0 12px}
+.hello h1 em{font-style:italic;color:var(--accent)}
+.hello .row{margin-top:clamp(14px,3svh,26px);display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.hint{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted)}
+.hint b{display:inline-block;font-size:18px;animation:bob 2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(5px)}}
+.aviso{font-size:13px;color:var(--muted);border-left:2px solid var(--mostaza);padding-left:12px;max-width:70ch;line-height:1.4}
+
+/* concepto */
+.big{font-size:clamp(56px,min(19vw,12svh),150px)!important;line-height:.9!important;letter-spacing:-.03em!important}
+.big em{font-style:italic;color:var(--accent)}
+.oficio{display:grid;gap:0;border-top:1px solid var(--fg)}
+.oficio div{padding:clamp(10px,2svh,16px) 0;border-bottom:1px solid var(--line)}
+.oficio b{display:block;font-family:var(--display);font-weight:400;font-size:clamp(21px,min(6vw,3.6svh),30px);line-height:1.15;margin-bottom:2px;font-variation-settings:"SOFT" 0,"WONK" 0}
+.oficio span{color:var(--muted);font-size:15px;line-height:1.4;display:block}
+.bajadas{display:grid;gap:14px}
+.bajada{background:var(--surface);border-radius:10px;padding:clamp(16px,3svh,26px) 22px}
+.bajada .eyebrow{display:block;margin-bottom:8px}
+.bajada p{font-family:var(--display);font-size:clamp(21px,min(5.6vw,3.6svh),28px);line-height:1.25;font-variation-settings:"SOFT" 0,"WONK" 0}
+
+/* voz */
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tag{border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:15px}
+.tag.no{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--arcilla)}
+.sub{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--muted);margin:6px 0 -2px}
+.ej div{display:grid;gap:4px;padding:clamp(8px,1.8svh,14px) 0;border-top:1px solid var(--line)}
+.ej .si{font-family:var(--display);font-size:clamp(18px,min(5vw,3svh),22px);line-height:1.25;font-variation-settings:"SOFT" 0,"WONK" 0}
+.ej .no{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--arcilla);font-size:15px}
+.ej small{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--muted);text-decoration:none;font-family:var(--sans);margin-bottom:1px}
+
+/* color: muestras apiladas, información al lado */
+.pal{max-width:560px}
+.pal .sw{display:grid;grid-template-columns:minmax(96px,38%) 1fr;align-items:center;gap:18px}
+.pal .sw i{display:block;height:clamp(34px,6.2svh,64px);box-shadow:inset 0 0 0 1px rgba(51,39,29,.18)}
+.pal .sw:first-child i{border-radius:10px 10px 0 0}
+.pal .sw:last-child i{border-radius:0 0 10px 10px}
+.pal b{display:block;font-size:16px;font-weight:600;line-height:1.15}
+.pal span{display:block;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;line-height:1.3}
+
+/* tipografía */
+.type{display:grid;gap:clamp(16px,4svh,32px)}
+.type > div{display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--fg);padding-top:12px}
+.spec-d{font-family:var(--display);font-size:clamp(44px,min(13vw,9svh),100px);line-height:1;letter-spacing:-.02em;font-variation-settings:"SOFT" 0,"WONK" 0,"opsz" 144}
+.spec-s{font-size:clamp(28px,min(8vw,5.6svh),56px);line-height:1.1;font-weight:500}
+
+/* carruseles: se desliza de lado; los botones solo aparecen en pantallas anchas */
+.hs{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-block:4px;margin-right:calc(-1 * max(18px,env(safe-area-inset-right,0px)));padding-right:18px;scroll-behavior:smooth;overscroll-behavior-x:contain}
+.hs::-webkit-scrollbar{display:none}
+.hs > *{scroll-snap-align:start;flex:0 0 78%}
+.hs-nav{display:none;gap:10px;margin-top:10px}
+.hs-nav button{font:inherit;width:44px;height:44px;border-radius:50%;border:1px solid var(--fg);background:transparent;color:var(--fg);cursor:pointer;font-size:20px;line-height:1}
+.hs-nav button:hover{background:var(--fg);color:var(--bg)}
+.swipe{font-size:13px;color:var(--muted);margin-top:6px}
+.slide{display:flex;flex-direction:column;gap:4px}
+.slide .ink{width:100%}
+.slide b{font-family:var(--display);font-weight:400;font-size:20px;font-variation-settings:"SOFT" 0,"WONK" 0}
+.slide span.c{font-size:14px;color:var(--muted);line-height:1.35}
+.hs.ilus > *{flex:0 0 min(78%,32svh)}
+.hs.figs > *{flex:0 0 min(70%,calc(34svh * .8))}
+.hs.ba > *{flex:0 0 94%}
+.ba .slide{gap:8px}
+.ba .slide h3{font-size:22px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pair figure{margin:0;display:flex;flex-direction:column;gap:5px;min-width:0}
+.pair img{width:100%;border-radius:6px;object-fit:cover;aspect-ratio:var(--ar,4/5);background:var(--surface)}
+.pair figcaption{font-size:13px;color:var(--muted);font-weight:600}
+.fig{margin:0;display:flex;flex-direction:column;gap:6px}
+.fig img{width:100%;border-radius:6px;aspect-ratio:4/5;object-fit:cover;background:var(--surface)}
+.fig figcaption{font-size:14px;color:var(--muted)}
+.lista{margin:0;padding:0;list-style:none}
+.lista li{padding:clamp(10px,2svh,14px) 0;border-top:1px solid var(--line);font-size:16px}
+.lista b{display:block;font-weight:600}
+.lista span{color:var(--muted);font-size:15px}
+
+/* sitio y cierre */
+.queverás div{padding:clamp(8px,1.8svh,12px) 0;border-top:1px solid var(--line);font-size:15px;color:var(--muted);line-height:1.4}
+.queverás b{display:block;color:var(--fg);font-size:19px;font-family:var(--display);font-weight:400;font-variation-settings:"SOFT" 0,"WONK" 0;margin-bottom:1px}
+.cta-row{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+
+/* pantallas anchas */
+@media (min-width:860px){
+  body{font-size:18px}
+  .hello{flex-direction:row;align-items:center;gap:56px}
+  .hello > div{flex:1}
+  .hello .ink{flex:none;align-self:center;height:min(46svh,calc(46vw / 1.602));margin-left:0}
+  .hello .row{flex-direction:row;align-items:center;gap:20px}
+  .oficio{grid-template-columns:repeat(3,minmax(0,1fr));border-bottom:0}
+  .oficio div{border-bottom:0;padding:18px 24px 6px 0}
+  .oficio div+div{padding-left:24px;border-left:1px solid var(--line)}
+  .bajadas{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+  .ej div{grid-template-columns:1fr 1fr;gap:20px}
+  .type{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px}
+  .queverás{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+  .cta-row{flex-direction:row;align-items:center;gap:16px}
+  .hs{margin-right:0;padding-right:0}
+  .hs.ilus > *{flex-basis:min(360px,40svh)}
+  .hs.figs > *{flex-basis:min(300px,calc(46svh * .8))}
+  .hs.ba > *{flex-basis:min(620px,92%)}
+  .hs-nav{display:flex}
+  .swipe{display:none}
+}
+@media (max-height:620px){
+  .hello .ink{height:min(17svh,calc(70vw / 1.602))}
+  .hello h1{margin:4px 0 8px}
+  .hello .row{margin-top:10px;gap:8px}
+  .hello .lead{font-size:15px;line-height:1.4}
+  .btn{min-height:44px;padding:10px 22px}
+  .queverás div{padding:6px 0;font-size:14px;line-height:1.3}
+  .queverás b{font-size:17px}
+  .cta-row .cap{display:none}
+  .ba .pair img{aspect-ratio:1/1}
+  .ba .slide{gap:5px}
+  .ba .slide h3{font-size:19px}
+  .v h2{font-size:clamp(28px,min(9vw,6svh),64px)}
+}
+@media (min-width:600px){
+  .hs.ba > *{flex-basis:min(620px,92%,64svh)}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hs{scroll-behavior:auto}.hint b{animation:none}.rail i{transition:none}}
+</style>
+<style id="gate-css">
+html.locked body>*:not(#gate){display:none!important}
+#gate{display:none}
+html.locked #gate{display:flex}
+#gate{position:fixed;inset:0;z-index:100;align-items:center;justify-content:center;background:#F4EEE0;color:#33271D;font-family:"Figtree",system-ui,sans-serif;padding:24px}
+#gate form{width:100%;max-width:340px;display:flex;flex-direction:column;gap:14px}
+#gate h1{font-family:"Fraunces",Georgia,serif;font-weight:400;font-size:44px;line-height:1;margin:0;letter-spacing:-.02em}
+#gate p{margin:0;color:#6B5D4E;font-size:15px}
+#gate label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:#6B5D4E}
+#gate input{font:inherit;font-size:17px;border:1px solid #33271D;background:#FFFAF2;color:#33271D;border-radius:10px;padding:13px 14px;width:100%}
+#gate button{font:inherit;font-size:17px;font-weight:600;background:#56613A;color:#F4EEE0;border:1px solid #56613A;border-radius:10px;padding:13px;cursor:pointer;min-height:48px}
+#gate .err{color:#9A4F36;font-size:14px;min-height:1.3em}
+</style>
+<script>try{if(sessionStorage.getItem("kern-ok")!=="1")document.documentElement.classList.add("locked")}catch(e){document.documentElement.classList.add("locked")}</script>
+</head>
+<body>
+
+
+<div class="rail" id="rail" aria-hidden="true"></div>
+
+<main>
+
+  <!-- Bienvenida -->
+  <section class="v" aria-label="Bienvenida">
+    <div class="hello">
+      <span class="ink" style="--m:url(img/barra-recorte.webp)" role="img" aria-label="Grabado de una barra de jabón con una rodaja cortada y una ramita de hierbas"></span>
+      <div>
+        <div class="eyebrow">Propuesta de Plim Plam para Kern</div>
+        <h1><em>Hola!</em></h1>
+        <p class="lead">Lo que vas a ver es un ejercicio, creado con herramientas de inteligencia artificial. Muestra lo que se puede hacer rápidamente y algunas de las posibilidades, para que puedas imaginar cómo podría ser Kern.</p>
+        <div class="row">
+          <button class="btn" id="empezar" type="button">Empezar <span aria-hidden="true">↓</span></button>
+          <span class="hint"><b aria-hidden="true">↓</b> Se avanza deslizando hacia abajo</span>
+        </div>
+      </div>
+    </div>
+    <p class="aviso">Propuesta no oficial. Parte de la información y las fotos públicas de kern.cl; nada de esto se ha publicado.</p>
+  </section>
+
+  <!-- Concepto A -->
+  <section class="v" aria-label="Concepto de marca">
+    <div class="eyebrow">Concepto de marca</div>
+    <h2 class="big">Hecho con <em>tiempo.</em></h2>
+    <p class="lead">Lo que no se ve en un jabón de Kern es el tiempo. Hay oficio en cada barra, y esa es la historia que proponemos contar.</p>
+    <div class="oficio">
+      <div><b>Saponificación en frío</b><span>Solo aceites vegetales, sin cocción.</span></div>
+      <div><b>Reposo de 30 días</b><span>Cada barra espera su tiempo antes de salir del taller.</span></div>
+      <div><b>Pulido barra a barra</b><span>Cantos y terminación a mano, una por una.</span></div>
+    </div>
+  </section>
+
+  <!-- Concepto B -->
+  <section class="v" aria-label="Una idea, dos conversaciones">
+    <div class="eyebrow">Concepto de marca</div>
+    <h2>Una idea, dos conversaciones</h2>
+    <p class="lead">El mismo tiempo sostiene lo que le decimos a quien compra para sí y a la empresa que regala.</p>
+    <div class="bajadas">
+      <div class="bajada"><span class="eyebrow">Para las personas</span><p>Lo hicimos con tiempo, para que lo uses o lo regales con la misma calma.</p></div>
+      <div class="bajada"><span class="eyebrow">Para las empresas</span><p>Un regalo que muestra que la empresa se tomó el tiempo.</p></div>
+    </div>
+  </section>
+
+  <!-- Voz A -->
+  <section class="v" aria-label="Cómo es Kern">
+    <div class="eyebrow">Concepto de marca</div>
+    <h2>Cómo es Kern</h2>
+    <p class="sub">Lo que es</p>
+    <div class="tags">
+      <span class="tag">Paciente</span><span class="tag">Cuidadosa</span><span class="tag">Precisa</span><span class="tag">Cálida y sobria</span><span class="tag">Generosa: pensada para dar</span><span class="tag">Honesta: explica cómo se hace</span>
+    </div>
+    <p class="sub">Lo que no es</p>
+    <div class="tags">
+      <span class="tag no">Apurada</span><span class="tag no">De oferta</span><span class="tag no">Cursi</span><span class="tag no">Clínica</span>
+    </div>
+  </section>
+
+  <!-- Voz B -->
+  <section class="v" aria-label="Cómo suena Kern">
+    <div class="eyebrow">Concepto de marca</div>
+    <h2>Cómo suena Kern</h2>
+    <div class="ej">
+      <div><span class="si"><small>Sí</small>Reposó 30 días antes de llegar a tus manos.</span><span class="no"><small>No</small>¡Oferta imperdible, solo hoy!</span></div>
+      <div><span class="si"><small>Sí</small>Aceite de almendra, avellana y palta.</span><span class="no"><small>No</small>Previene estrías y trata la piel.</span></div>
+      <div><span class="si"><small>Sí</small>Tú y tu equipo se toman el tiempo.</span><span class="no"><small>No</small>Soluciones innovadoras a tu medida.</span></div>
+    </div>
+    <p class="cap">Tuteo cercano, frases cortas y el dato del proceso por delante. Las afirmaciones de salud se revisarían con un especialista antes de repetirlas.</p>
+  </section>
+
+  <!-- Color -->
+  <section class="v" aria-label="Paleta de color">
+    <div class="eyebrow">Identidad · propuesta</div>
+    <h2>Colores de papel, tierra y hoja</h2>
+    <p class="lead">Cálidos y apagados. El color vivo lo pondrían los jabones y sus aromas.</p>
+    <div class="pal">
+      <div class="sw"><i style="background:#F4EEE0"></i><div><b>Papel</b><span>#F4EEE0 · fondo</span></div></div>
+      <div class="sw"><i style="background:#E7DDC8"></i><div><b>Lino</b><span>#E7DDC8 · superficies</span></div></div>
+      <div class="sw"><i style="background:#33271D"></i><div><b>Tinta</b><span>#33271D · texto y grabado</span></div></div>
+      <div class="sw"><i style="background:#56613A"></i><div><b>Oliva</b><span>#56613A · botones y énfasis</span></div></div>
+      <div class="sw"><i style="background:#BAC4A2"></i><div><b>Salvia</b><span>#BAC4A2 · apoyo suave</span></div></div>
+      <div class="sw"><i style="background:#CC9A33"></i><div><b>Mostaza miel</b><span>#CC9A33 · acento, nunca texto</span></div></div>
+      <div class="sw"><i style="background:#9A4F36"></i><div><b>Arcilla</b><span>#9A4F36 · detalles cálidos</span></div></div>
+    </div>
+  </section>
+
+  <!-- Tipografía -->
+  <section class="v" aria-label="Tipografía">
+    <div class="eyebrow">Identidad · propuesta</div>
+    <h2>Dos tipografías</h2>
+    <p class="lead">Fraunces para los titulares y Figtree para el texto.</p>
+    <div class="type">
+      <div>
+        <span class="eyebrow">Fraunces</span>
+        <div class="spec-d">Reposo de 30 días</div>
+      </div>
+      <div>
+        <span class="eyebrow">Figtree</span>
+        <div class="spec-s">Aceite de almendra, avellana y palta</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ilustraciones -->
+  <section class="v" aria-label="Ilustraciones">
+    <div class="eyebrow">Identidad · propuesta</div>
+    <h2>Un grabado botánico por ingrediente</h2>
+    <p class="lead">Una sola tinta y línea fina, como en un herbario.</p>
+    <div>
+      <div class="hs ilus" id="car-ilus" tabindex="0" aria-label="Carrusel de ilustraciones">
+        <div class="slide"><span class="ink" style="--m:url(img/barra.webp)" role="img" aria-label="Grabado de una barra de jabón"></span><b>La barra</b></div>
+        <div class="slide"><span class="ink" style="--m:url(img/01-palta.webp)" role="img" aria-label="Grabado de palta entera y partida"></span><b>Palta</b></div>
+        <div class="slide"><span class="ink" style="--m:url(img/02-oliva.webp)" role="img" aria-label="Grabado de una rama de olivo con aceitunas"></span><b>Oliva</b></div>
+        <div class="slide"><span class="ink" style="--m:url(img/03-avellana.webp)" role="img" aria-label="Grabado de avellanas con hojas"></span><b>Avellana</b></div>
+        <div class="slide"><span class="ink" style="--m:url(img/04-uva.webp)" role="img" aria-label="Grabado de un racimo de uvas con su pepa"></span><b>Pepa de uva</b></div>
+        <div class="slide"><span class="ink" style="--m:url(img/05-cacao.webp)" role="img" aria-label="Grabado de una rama de cacao con el fruto abierto"></span><b>Cacao</b></div>
+        <div class="slide"><span class="ink" style="--m:url(img/06-miel-abeja.webp)" role="img" aria-label="Grabado de abejas sobre un panal"></span><b>Miel</b></div>
+        <div class="slide"><span class="ink" style="--m:url(img/07-coco.webp)" role="img" aria-label="Grabado de un coco entero y partido"></span><b>Coco</b></div>
+        <div class="slide"><span class="ink" style="--m:url(img/08-macadamia.webp)" role="img" aria-label="Grabado de macadamia en su rama"></span><b>Macadamia</b></div>
+        <div class="slide"><span class="ink" style="--m:url(img/09-naranja-canela.webp)" role="img" aria-label="Grabado de naranja con flor y canela"></span><b>Naranja y canela</b></div>
+        <div class="slide"><span class="ink" style="--m:url(img/10-frambuesa.webp)" role="img" aria-label="Grabado de frambuesas en su rama"></span><b>Frambuesa</b></div>
+        <div class="slide"><span class="ink" style="--m:url(img/11-sandalo.webp)" role="img" aria-label="Grabado de sándalo con un trozo de madera"></span><b>Sándalo</b></div>
+        <div class="slide"><span class="ink" style="--m:url(img/12-luffa.webp)" role="img" aria-label="Grabado de una luffa entera, su flor y un corte"></span><b>Luffa</b></div>
+      </div>
+      <div class="hs-nav" data-for="car-ilus"><button type="button" data-d="-1" aria-label="Anterior">←</button><button type="button" data-d="1" aria-label="Siguiente">→</button></div>
+      <p class="swipe">← Desliza de lado para ver más →</p>
+    </div>
+    <p class="cap">Sin texto dentro de la imagen y con mucho aire alrededor.</p>
+  </section>
+
+  <!-- Fotografía: antes y después -->
+  <section class="v" aria-label="Fotografía, antes y después">
+    <div class="eyebrow">Fotografía</div>
+    <h2>Desde las fotos que ya tienes</h2>
+    <p class="lead">Utilizando IA, se pueden cambiar fondos, luces y composición, dejando el producto intacto.</p>
+    <div>
+      <div class="hs ba" id="car-ba" tabindex="0" aria-label="Carrusel de fotos, antes y después">
+        <div class="slide"><h3>Sándalo</h3>
+          <div class="pair" style="--ar:4/5"><figure><img src="img/antes-sandalo.webp" width="800" height="800" alt="Foto actual del jabón de sándalo en kern.cl" loading="lazy"><figcaption>Antes</figcaption></figure><figure><img src="img/01-sandalo-ficha.webp" width="800" height="1000" alt="Fotografía editada del jabón de sándalo sobre fondo liso" loading="lazy"><figcaption>Después</figcaption></figure></div>
+          <span class="c">Fondo liso, luz de ventana y el cintillo original conservado.</span></div>
+        <div class="slide"><h3>Frambuesa</h3>
+          <div class="pair" style="--ar:4/5"><figure><img src="img/antes-frambuesa.webp" width="800" height="800" alt="Foto actual del jabón de frambuesa en kern.cl" loading="lazy"><figcaption>Antes</figcaption></figure><figure><img src="img/02-frambuesa-ficha.webp" width="800" height="1000" alt="Fotografía editada del jabón de frambuesa sobre fondo liso" loading="lazy"><figcaption>Después</figcaption></figure></div>
+          <span class="c">El mismo jabón, con más aire y una sombra suave.</span></div>
+        <div class="slide"><h3>Almendra</h3>
+          <div class="pair" style="--ar:4/5"><figure><img src="img/antes-almendra.webp" width="800" height="800" alt="Foto actual del jabón de almendra en kern.cl" loading="lazy"><figcaption>Antes</figcaption></figure><figure><img src="img/03-almendra-ficha.webp" width="800" height="1000" alt="Fotografía editada del jabón de almendra sobre fondo liso" loading="lazy"><figcaption>Después</figcaption></figure></div>
+          <span class="c">Un encuadre vertical, pensado para la ficha del producto.</span></div>
+        <div class="slide"><h3>Bolsa kraft</h3>
+          <div class="pair" style="--ar:1/1"><figure><img src="img/antes-kraft.webp" width="1000" height="800" alt="Foto actual de la bolsa kraft con jabones en kern.cl" loading="lazy"><figcaption>Antes</figcaption></figure><figure><img src="img/07-pack-kraft.webp" width="1100" height="619" alt="Fotografía editada de la bolsa kraft sobre fondo liso" loading="lazy" style="object-position:62% 50%"><figcaption>Después</figcaption></figure></div>
+          <span class="c">Se quitó el fondo recargado y quedó la bolsa con sus jabones.</span></div>
+        <div class="slide"><h3>Caja de pino</h3>
+          <div class="pair" style="--ar:1/1"><figure><img src="img/antes-pino.webp" width="1000" height="800" alt="Foto actual de la caja de pino con jabones naranjos en kern.cl" loading="lazy"><figcaption>Antes</figcaption></figure><figure><img src="img/08-pack-pino.webp" width="1100" height="619" alt="Fotografía editada de la caja de pino sobre fondo liso" loading="lazy" style="object-position:50% 50%"><figcaption>Después</figcaption></figure></div>
+          <span class="c">La caja y el lazo, sobre un fondo liso y con una ramita de olivo.</span></div>
+        <div class="slide"><h3>Caja con lazo</h3>
+          <div class="pair" style="--ar:1/1"><figure><img src="img/antes-caja.webp" width="1000" height="800" alt="Foto actual de la caja de pino con lazo y varios jabones en kern.cl" loading="lazy"><figcaption>Antes</figcaption></figure><figure><img src="img/09-pack-caja.webp" width="1100" height="619" alt="Fotografía editada de la caja con lazo sobre fondo liso" loading="lazy" style="object-position:62% 50%"><figcaption>Después</figcaption></figure></div>
+          <span class="c">Sin carteles ni plantas alrededor, con espacio para texto.</span></div>
+      </div>
+      <div class="hs-nav" data-for="car-ba"><button type="button" data-d="-1" aria-label="Anterior">←</button><button type="button" data-d="1" aria-label="Siguiente">→</button></div>
+      <p class="swipe">← Desliza de lado para ver más →</p>
+    </div>
+  </section>
+
+  <!-- Escenas -->
+  <section class="v" aria-label="Escenas para redes">
+    <div class="eyebrow">Fotografía</div>
+    <h2>Una escena nueva para cada jabón</h2>
+    <p class="lead">La misma barra, con sus ingredientes reales, para redes o campañas. Sirve para probar ideas antes de fotografiar de verdad.</p>
+    <div>
+      <div class="hs figs" id="car-esc" tabindex="0" aria-label="Escenas para redes">
+        <figure class="fig"><img src="img/04-sandalo-redes.webp" width="640" height="800" alt="Barra de sándalo junto a una rama de olivo y un trozo de madera de sándalo" loading="lazy"><figcaption>Sándalo, con olivo y madera</figcaption></figure>
+        <figure class="fig"><img src="img/05-frambuesa-redes.webp" width="640" height="800" alt="Barra de frambuesa junto a frambuesas frescas con sus hojas" loading="lazy"><figcaption>Frambuesa, con fruta fresca</figcaption></figure>
+        <figure class="fig"><img src="img/06-almendra-redes.webp" width="640" height="800" alt="Barra de almendra junto a almendras y una rama de almendro en flor" loading="lazy"><figcaption>Almendra, con rama en flor</figcaption></figure>
+      </div>
+      <div class="hs-nav" data-for="car-esc"><button type="button" data-d="-1" aria-label="Anterior">←</button><button type="button" data-d="1" aria-label="Siguiente">→</button></div>
+      <p class="swipe">← Desliza de lado para ver más →</p>
+    </div>
+  </section>
+
+  <!-- Producción A -->
+  <section class="v" aria-label="Decidir qué producir">
+    <div class="eyebrow">Fotografía y producción</div>
+    <h2>La IA también ayuda a decidir qué producir</h2>
+    <p class="lead">Antes de imprimir o fabricar, se puede ver cómo quedaría una idea puesta en el producto. Se descartan opciones rápido y se llega a la imprenta con una decisión más segura.</p>
+    <ul class="lista">
+      <li><b>Etiquetas y cintillos</b><span>Probar un diseño nuevo sobre la barra real.</span></li>
+      <li><b>Cajas, bolsas y tarjeta del regalo</b><span>Ver una idea nueva en los packs.</span></li>
+      <li><b>Lista de tomas</b><span>Preparar la sesión de fotos real en el taller.</span></li>
+    </ul>
+  </section>
+
+  <!-- Producción B -->
+  <section class="v" aria-label="Etiquetas nuevas">
+    <div class="eyebrow">Fotografía y producción</div>
+    <h2>Etiquetas nuevas, antes de imprimir</h2>
+    <div>
+      <div class="hs figs" id="car-etq" tabindex="0" aria-label="Exploración de etiquetas nuevas">
+        <figure class="fig"><img src="img/etq-01-sandalo-ficha.webp" width="800" height="1000" alt="Barra de sándalo con un cintillo nuevo, de fondo blanco y grabado botánico" loading="lazy"><figcaption>Sándalo</figcaption></figure>
+        <figure class="fig"><img src="img/etq-02-frambuesa-ficha.webp" width="800" height="1000" alt="Barra de frambuesa con un cintillo nuevo, de fondo blanco y grabado botánico" loading="lazy"><figcaption>Frambuesa</figcaption></figure>
+        <figure class="fig"><img src="img/etq-03-almendra-ficha.webp" width="800" height="1000" alt="Barra de almendra con un cintillo nuevo, de fondo blanco y grabado botánico" loading="lazy"><figcaption>Almendra</figcaption></figure>
+      </div>
+      <div class="hs-nav" data-for="car-etq"><button type="button" data-d="-1" aria-label="Anterior">←</button><button type="button" data-d="1" aria-label="Siguiente">→</button></div>
+      <p class="swipe">← Desliza de lado para ver más →</p>
+    </div>
+    <p class="cap">Exploración con textos de ejemplo. Las etiquetas actuales se conservarían hasta decidir juntos.</p>
+  </section>
+
+  <!-- Sitio -->
+  <section class="v" aria-label="El sitio">
+    <div class="eyebrow">Sitio web</div>
+    <h2>¿Y cómo podría verse el sitio?</h2>
+    <p class="lead">Armamos una maqueta navegable con tres páginas, usando todo lo anterior. Se abre aparte, para que la recorras a tu ritmo.</p>
+    <div class="queverás">
+      <div><b>Inicio</b>«Hecho con tiempo» y el producto, por ocasión.</div>
+      <div><b>Ficha de jabón</b>Fotos, ingredientes ilustrados y datos del proceso.</div>
+      <div><b>Para empresas</b>Packs por ocasión y una cotización en cinco datos.</div>
+    </div>
+    <div class="cta-row">
+      <a class="btn" href="sitio.html">Ver el sitio como podría ser <span aria-hidden="true">→</span></a>
+      <span class="cap">Desde allí puedes volver a esta muestra.</span>
+    </div>
+  </section>
+
+  <!-- Conócenos mejor -->
+  <section class="v" aria-label="Conócenos mejor">
+    <div class="eyebrow">Plim Plam</div>
+    <h2 class="big" style="font-size:clamp(46px,min(15vw,10svh),110px)!important">Conócenos <em>mejor.</em></h2>
+    <p class="lead">Somos Plim Plam. Hacemos simple que personas y empresas le saquen provecho real a la inteligencia artificial, una tarea a la vez y con resultados pronto.</p>
+    <div class="cta-row">
+      <a class="btn" href="https://plimplam.cl" target="_blank" rel="noopener">Ir a plimplam.cl <span aria-hidden="true">→</span></a>
+      <button class="btn ghost" type="button" id="inicio">Volver al inicio</button>
+    </div>
+    <p class="cap">Propuesta no oficial de Plim Plam para Kern. Imágenes creadas y editadas con inteligencia artificial.</p>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  var stops=[].slice.call(document.querySelectorAll(".v")), rail=document.getElementById("rail");
+  stops.forEach(function(){rail.appendChild(document.createElement("i"))});
+  function mark(k){[].forEach.call(rail.children,function(d,j){d.className=j===k?"d":""})}
+  mark(0);
+  if("IntersectionObserver" in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)mark(stops.indexOf(e.target))})},{rootMargin:"-45% 0px -45% 0px"});
+    stops.forEach(function(s){io.observe(s)});
+  }
+  document.getElementById("empezar").addEventListener("click",function(){stops[1].scrollIntoView({behavior:"smooth",block:"start"})});
+  document.getElementById("inicio").addEventListener("click",function(){window.scrollTo({top:0,behavior:"smooth"})});
+  document.querySelectorAll(".hs-nav").forEach(function(nav){
+    var tr=document.getElementById(nav.dataset.for);
+    nav.addEventListener("click",function(e){
+      var b=e.target.closest("button"); if(!b)return;
+      var s=tr.firstElementChild, w=s.getBoundingClientRect().width+16;
+      tr.scrollBy({left:Number(b.dataset.d)*w,behavior:"smooth"});
+    });
+  });
+})();
+</script>
+
+<div id="gate" role="dialog" aria-label="Acceso">
+<form id="gate-form" autocomplete="off">
+<h1>Kern</h1>
+<p>Esta muestra es privada. Escribe la clave para entrar.</p>
+<label for="gate-pw">Clave</label>
+<input id="gate-pw" type="password" autocomplete="current-password" autofocus>
+<button type="submit">Entrar</button>
+<div class="err" id="gate-err" aria-live="polite"></div>
+</form>
+</div>
+<script>
+(function(){
+  var HASH="548831b7e4aec2af721010c520de7fd622a22d96b6d51a26e53614c330ae1c21";
+  function sha(t){
+    if(window.crypto&&crypto.subtle){return crypto.subtle.digest("SHA-256",new TextEncoder().encode(t)).then(function(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return("0"+x.toString(16)).slice(-2)}).join("")})}
+    return Promise.resolve(null);
+  }
+  document.getElementById("gate-form").addEventListener("submit",function(e){
+    e.preventDefault();
+    var v=document.getElementById("gate-pw").value.trim().toLowerCase();
+    sha(v).then(function(h){
+      if(h===HASH){try{sessionStorage.setItem("kern-ok","1")}catch(x){}document.documentElement.classList.remove("locked");window.scrollTo(0,0)}
+      else{document.getElementById("gate-err").textContent="Clave incorrecta.";document.getElementById("gate-pw").select()}
+    });
+  });
+})();
+</script>
+</body>
+</html>
